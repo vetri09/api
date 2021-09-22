@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Imgbb = require('imgbbjs');
 const imgbb = new Imgbb({
@@ -153,4 +154,5 @@ router.put('/:_id/follow', async(req,res) => {
         res.status(403).json({messages:"You cannot follow yourself"})
     }
 });
+
 module.exports = router;
