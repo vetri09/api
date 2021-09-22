@@ -8,6 +8,7 @@ const UserModel = require('../models/userModel');
 //   key: process.env.IMGBB_API_TOKEN,
 // });
 
+// get
 // get all users
 router.get('/', async (req, res) => {
     try {
@@ -18,6 +19,20 @@ router.get('/', async (req, res) => {
       });
     } catch (error) {
       res.status(500).send(error);
+    }
+});
+// search user
+router.get('/search/:searchName', async(req,res)=>{
+    try {
+        const allUsers = await UserModel.find({confirmed:true})
+        const users = await Promise.all(
+            allUsers.filter((user)=>{
+                if(user.userName.includes((req.params.searchName).toLowerCase())) return user
+            })
+        );
+        res.send({users})
+    } catch (error) {
+         res.status(500).json(error);
     }
 });
 
