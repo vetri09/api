@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/userModel');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 // user email verification send
@@ -128,5 +129,34 @@ router.post('/register', async(req,res)=>{
     //         }
     //     });
 });
+// user login
+router.post('/login', async(req,res)=>{
+    const body = req.body;
+    const user = await UserModel.findOne({email:body.email})
+    if(!user){
+        res.status(401).json({messages:"This email does not exist"})
+    }
+    if(!user.confirmed){
+        res.status(401).json({messages:"Please confirm your email to login"})
+    }
+    const validPassword = await bcrypt.compare(body.password, user.password)
+    if(!validPassword){
+        res.status(403).json({messages:"Invalid password"})
+    }
+    const token = jwt.sign(
+        {
+            email: user.email,
+            _id: user._id
+        },
+        process.env.JWT_SECRET,
+        {expiresIn: "1hr"},
+    )
+    res.status(200).json({
+        token
+        : token,
+        user,
+        messages:"Login success"
+    })
+})
 
 module.exports = router;
