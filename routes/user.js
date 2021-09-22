@@ -8,12 +8,8 @@ const UserModel = require('../models/userModel');
 //   key: process.env.IMGBB_API_TOKEN,
 // });
 
-// demo
-router.get('/', function(req, res, next) {
-  res.send("<p>user</p>");
-});
 // get all users
-router.get('/list', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       const list = await UserModel.find()
       res.send({
