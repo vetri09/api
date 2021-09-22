@@ -44,6 +44,19 @@ router.post('/verify', async(req,res)=>{
   });
 
   smptTransport.close();
-})
+});
+// user email verification receive
+router.get('/confirmtoken/:token', async(req,res)=>{
+    try{
+        const data = jwt.verify(req.params.token, process.env.ACCESS_TOKEN_SECRET);
+        console.log(data)
+        console.log(data.email)
+        await UserModel.findOneAndUpdate({email:data.email},{confirmed: true})
+        res.send("Account confirmed. Kindly login");
+    }
+    catch(e){
+        res.send(e);
+    }
+});
 
 module.exports = router;
