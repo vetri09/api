@@ -7,9 +7,18 @@ const Imgbb = require('imgbbjs');
 const imgbb = new Imgbb({
   key: process.env.IMGBB_API_TOKEN,
 });
-
-router.get('/', function(req, res, next) {
-  res.send("<h1>post</h1>")
+// get
+// get a post
+router.get('/:_id', async (req,res)=>{
+    try {
+        const post = await PostModel.findById(req.params._id)
+        res.status(200).send({
+            post,
+            messages:"Post displayed"
+        })
+    } catch (error) {
+        res.status(500).json(error);
+    }
 });
 
 
