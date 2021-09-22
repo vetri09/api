@@ -10,7 +10,7 @@ const UserModel = require('../models/userModel');
 
 // get all users
 router.get('/', function(req, res, next) {
-  res.send("<p>user</p")
+  res.send("<p>user</p>")
 });
 // router.get('/', async(req, res) => {
 //     const list = await UserModel.find()
