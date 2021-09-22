@@ -134,4 +134,16 @@ router.delete('/:_id', async(req,res)=>{
 // comment in post
 // update comment
 // delete comment
+// // verify token 
+// const authenticateToken = (req,res,next) => {
+//     const token = req.headers['x-access-token']
+//     if(token === null) return res.sendStatus(401)
+
+//     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+//         if(err) return res.status(403).send(err)
+//         req.userId = decoded._id;
+//         next()
+//     })
+// };
+
 module.exports = router;
