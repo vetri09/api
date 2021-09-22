@@ -12,9 +12,11 @@ app.use(cors());
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const postRouter = require('./routes/posts');
+const authRouter = require('./routes/auth');
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/posts', postRouter);
+app.use('/auth', authRouter);
 
 const dburl = process.env.DB_URL;
 mongoose.connect(dburl, {useNewUrlParser:true, useUnifiedTopology: true}).then(
