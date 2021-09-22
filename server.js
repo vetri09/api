@@ -10,7 +10,9 @@ app.use(cookieParser());
 app.use(cors());
 
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
 app.use('/', indexRouter);
+app.use('/user', userRouter);
 
 const dburl = process.env.DB_URL;
 mongoose.connect(dburl, {useNewUrlParser:true, useUnifiedTopology: true}).then(
