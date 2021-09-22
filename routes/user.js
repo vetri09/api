@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Imgbb = require('imgbbjs');
-const imgbb = new Imgbb({
-  key: process.env.IMGBB_API_TOKEN,
-});
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+// const Imgbb = require('imgbbjs');
+// const imgbb = new Imgbb({
+//   key: process.env.IMGBB_API_TOKEN,
+// });
 
 // get all users
 router.get('/', async(req, res) => {
