@@ -5,6 +5,7 @@ const UserModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+// const url = `http://localhost:3001/auth/confirmtoken/${emailToken}`
 // user email verification send
 router.post('/verify', async(req,res)=>{
     try {
@@ -18,9 +19,7 @@ router.post('/verify', async(req,res)=>{
                 expiresIn: '1d',
             },
         );
-        // const url = `http://localhost:3001/auth/confirmtoken/${emailToken}`
-        const url = `https://demooapi.herokuapp.com/auth/confirmtoken/${emailToken}`
-
+        const url = `https://demooapi.herokuapp.com/auth/confirmtoken/${emailToken}`;
         let smptTransport = nodemailer.createTransport({
             service:"Gmail",
             port:465,
@@ -29,22 +28,19 @@ router.post('/verify', async(req,res)=>{
             pass: process.env.GMAIL_PASS
             }
         });
-
         let mailOptions = {
             from: process.env.GMAIL_EMAIL,
             to: email,
             subject:`Confirm email`,
             html:`<p>Hey ${ userName }, Please click this link to verify your email: ${ url }</p>`
         };
-
         await smptTransport.sendMail(mailOptions,(err,res)=>{
             if(err){
                 console.log(err);
             }else{
-                res.send("sucess");
+                res.send(res);
             }
         });
-
         smptTransport.close();
     }
     catch (error) {
@@ -129,5 +125,4 @@ router.post('/login', async(req,res)=>{
         messages:"Login success"
     })
 });
-
 module.exports = router;
