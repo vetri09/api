@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+// app.use(cors());
+app.use(cors({origin: 'https://vetri09.github.io'}));
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
