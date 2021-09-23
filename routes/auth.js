@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 // user email verification send
 router.post('/verify', async(req,res)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const {userName,email} = req.body;
     console.log(req.body);
     const emailToken = jwt.sign(
