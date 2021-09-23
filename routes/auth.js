@@ -5,6 +5,10 @@ const UserModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+router.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next()
+});
 // user email verification send
 router.post('/verify', async(req,res)=>{
     const {userName,email} = req.body;
