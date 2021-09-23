@@ -38,11 +38,11 @@ router.post('/verify', async(req,res)=>{
   };
 
   await smptTransport.sendMail(mailOptions,(err,res)=>{
-    res.setHeader('Access-Control-Allow-Origin', '*');
     if(err){
-      console.log(err)
+        console.log(err);
     }else{
-      res.send("sucess")
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.send("sucess");
     }
   });
 
