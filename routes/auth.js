@@ -8,39 +8,44 @@ const nodemailer = require('nodemailer');
 // const url = `http://localhost:3001/auth/confirmtoken/${emailToken}`
 // user email verification send
 router.post('/verify', async(req,res)=>{
-    const {userName,email} = req.body;
-    const emailToken = jwt.sign(
-        {
-            email: email,
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-            expiresIn: '1d',
-        },
-    );
-    const url = `https://demooapi.herokuapp.com/auth/confirmtoken/${emailToken}`;
-    let smptTransport = nodemailer.createTransport({
-        service:"Gmail",
-        port:465,
-        auth:{
-        user: process.env.GMAIL_EMAIL,
-        pass: process.env.GMAIL_PASS
-        }
-    });
-    let mailOptions = {
-        from: process.env.GMAIL_EMAIL,
-        to: email,
-        subject:`Confirm email`,
-        html:`<p>Hey ${ userName }, Please click this link to verify your email: ${ url }</p>`
-    };
-    await smptTransport.sendMail(mailOptions,(err,res)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.send(res);
-        }
-    });
-    smptTransport.close();
+    try {
+        const {userName,email} = req.body;
+        const emailToken = jwt.sign(
+            {
+                email: email,
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: '1d',
+            },
+        );
+        const url = `https://demooapi.herokuapp.com/auth/confirmtoken/${emailToken}`;
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            // port:465,
+            auth:{
+            user: process.env.GMAIL_EMAIL,
+            pass: process.env.GMAIL_PASS
+            }
+        });
+        let mailOptions = {
+            from: process.env.GMAIL_EMAIL,
+            to: email,
+            subject:`Confirm email`,
+            html:`<p>Hey ${ userName }, Please click this link to verify your email: ${ url }</p>`
+        };
+        await transporter.sendMail(mailOptions,(err,res)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.send(res);
+            }
+        });
+        transporter.close();
+    }
+    catch (error) {
+        res.status(500).send(error);
+    }
 });
 // user email verification receive
 router.get('/confirmtoken/:token', async(req,res)=>{
