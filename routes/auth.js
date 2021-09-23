@@ -18,7 +18,8 @@ router.post('/verify', async(req,res)=>{
             expiresIn: '1d',
         },
     );
-    const url = `http://localhost:3001/auth/confirmtoken/${emailToken}`
+    // const url = `http://localhost:3001/auth/confirmtoken/${emailToken}`
+    const url = `https://demooapi.herokuapp.com/auth/confirmtoken/${emailToken}`
 
     let smptTransport = nodemailer.createTransport({
         service:"Gmail",
